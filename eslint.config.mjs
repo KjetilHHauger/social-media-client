@@ -17,6 +17,7 @@ export default [
       'prettier/prettier': 'error',
       'no-var': 'error',
       'prefer-const': 'error',
+      'no-inline-comments': 'error',
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
     },
