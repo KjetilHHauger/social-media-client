@@ -1,27 +1,41 @@
+import js from '@eslint/js';
 import globals from 'globals';
-import pluginJs from '@eslint/js';
-import prettierPlugin from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
-
+import eslintPluginJest from 'eslint-plugin-jest';
 export default [
   {
+    files: ['**/*.js'],
+    ignores: ['src/test/**', 'cypress/**', 'cypress.config.js'],
     languageOptions: {
-      globals: globals.browser,
       ecmaVersion: 'latest',
       sourceType: 'module',
+      globals: { ...globals.browser, ...globals.es2021 },
     },
-    plugins: {
-      prettier: prettierPlugin,
-    },
+    plugins: { jest: eslintPluginJest },
     rules: {
-      'prettier/prettier': 'error',
+      ...js.configs.recommended.rules,
+      eqeqeq: 'error',
+      curly: 'error',
+      'no-console': 'warn',
+      'no-unused-vars': 'warn',
       'no-var': 'error',
       'prefer-const': 'error',
-      'no-inline-comments': 'error',
-      quotes: ['error', 'single'],
-      semi: ['error', 'always'],
+      'no-const-assign': 'error',
+      'no-debugger': 'warn',
+      'no-lonely-if': 'error',
+      'no-nested-ternary': 'error',
+      'no-unreachable': 'error',
+      'spaced-comment': ['error', 'always'],
+      'no-inline-comments': 'warn',
     },
   },
-  pluginJs.configs.recommended,
-  prettierConfig,
+  {
+    files: ['**/*.test.js'],
+    ignores: [],
+    languageOptions: { globals: { ...globals.jest } },
+    plugins: { jest: eslintPluginJest },
+    rules: {
+      ...eslintPluginJest.configs.recommended.rules,
+      'jest/prefer-expect-assertions': 'off',
+    },
+  },
 ];
